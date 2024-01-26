@@ -1,0 +1,179 @@
+.window {
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  left: calc(50vw - var(--width, 50vw) / 2);
+  top: calc(50vh - var(--height, 50vh) / 2);
+  width: var(--width, 50vw);
+  height: var(--height, 50vh);
+  box-sizing: border-box;
+  color: #fff;
+  background-color: #1e1e1e;
+  border: 1ch solid #e1e1e1;
+  border-top-width: 2em;
+  outline: 1px solid #000;
+  border-radius: 1ch;
+}
+
+.window>.window-back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: -1.5em;
+}
+
+.window>.window-title {
+  position: absolute;
+  left: 50%;
+  top: -1.5em;
+  max-width: 50%;
+  transform: translate(-50%, 0);
+  overflow: hidden;
+  white-space: nowrap;
+  color: #000;
+}
+
+.window>.window-minimize-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 48px;
+  top: -1.5em;
+}
+
+.window>.window-maximize-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 24px;
+  top: -1.5em;
+}
+
+.window>.window-close-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: -1.5em;
+}
+
+.window>.window-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden auto;
+  overflow-wrap: break-word;
+  padding: 1ch;
+}
+
+.window>.window-tab {
+  position: relative;
+  top: calc(-1ch - 3.5em);
+  height: 3.5em;
+  flex: 1 0 0;
+  background-color: #e1e1e1;
+  border: 1px solid #000;
+  border-radius: 1ch 1ch 0 0;
+  padding: 0 1ch;
+}
+
+.window>.window-tab>:first-child {
+  position: relative;
+  top: 0.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #000;
+}
+
+.window-tab>:nth-child(2) {
+  position: relative;
+  top: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #3f3f3f;
+}
+
+.window>.window-tab.active {
+  border-bottom-style: none;
+}
+
+.window.maximized {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.window.minimized {
+  left: 0;
+  top: calc(100vh - 2em);
+  height: 2em;
+}
+
+.window.minimized>.window-back-button,
+.window.minimized>.window-maximize-button,
+.window.minimized>.window-content,
+.window.minimized>.window-tab:not(.active) {
+  display: none;
+}
+
+.window.back {
+  left: calc(50vw - var(--width, 50vw));
+  pointer-events: none;
+  opacity: 0;
+}
+
+.window.maximized.back {
+  left: -50vw;
+}
+
+.window.tabbed {
+  top: calc(50vh - var(--height, 50vh) / 2 + 3.5em);
+  height: calc(var(--height, 50vh) - 3.5em);
+  border-top-width: 1ch;
+}
+
+.window.tabbed.maximized {
+  top: 3.5em;
+  height: calc(100vh - 3.5em);
+}
+
+.window.tabbed.minimized {
+  top: calc(100vh - 2ch);
+  height: 2ch;
+}
+
+.window.tabbed>.window-back-button,
+.window.tabbed>.window-minimize-button,
+.window.tabbed>.window-maximize-button,
+.window.tabbed>.window-close-button {
+  position: relative;
+  right: initial;
+  top: calc(-3.5em - 1ch);
+  width: 3.5em;
+  height: 3.5em;
+  background-color: #e1e1e1;
+  border: 1px solid #000;
+  border-radius: 1ch 1ch 0 0;
+}
+
+.window.tabbed>.window-back-button {
+  margin-right: auto;
+}
+
+.window.tabbed>.window-title,
+.window.tabbed>.window-content {
+  display: none;
+}
+
+.window>.window-tab.active+.window-content {
+  display: block;
+}

@@ -1,4 +1,6 @@
-let downloads = {
+import * as sttk from "./sttk.js";
+
+const downloads = {
   "sd0.zip": `
   <img src="sd0.png" />
   <h3>SD0 (Secret Door 0)</h3>
@@ -46,7 +48,7 @@ function download(file) {
     title: `Pobieranie pliku ${file}`,
     content: progress,
     maximizable: false,
-    onClose: () => {}
+    onClose: () => undefined
   });
   const dataChunks = [];
   fetch(file).
@@ -84,81 +86,31 @@ function download(file) {
         title: `Pobrano plik ${file}`,
         previousWindow: downloadingWindow,
         content: downloads[file],
-        onReturn:() => {}
+        onReturn: () => undefined
       });
     });
 }
 
-function hash(str) {
-  let hash = 0;
-  if (str.length == 0) {
-    return hash;
-  }
-  for (let i = 0; i < str.length; i++) {
-    let char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash |= 0;
-  }
-  return hash;
-}
-
 function openTerminal(command) {
-  let element = document.createElement("div");
-  element.innerHTML = "<div class=\"stwindow\" style=\"opacity: 0; transform: scale(0.75);\" onmousedown=\"if (event.offsetY < 0) {drag = {element: this, x: event.offsetX + 1, y: event.offsetY + 30}; body.style.setProperty('user-select', 'none');}\" onclick=\"if (!window.getSelection().toString()) {this.querySelector('.terminal_textarea').focus();} this.querySelector('.terminal_textarea').selectionStart = -1; this.querySelector('.terminal_textarea').selectionEnd = -1;\"> <div class=\"stwindow_title\">Terminal</div> <div class=\"stwindow_close_button\" onclick=\"closeWindow(this.parentNode);\"> <svg width=\"10\" height=\"10\"> <path d=\"M 0 0 l 10 10 m 0 -10 l -10 10\" fill=\"#00000000\" stroke=\"#ffffff\"> </svg> </div> <div class=\"terminal_container\"> <textarea class=\"terminal_textarea\" onkeydown=\"handleTerminalTextareaKeydown(this, event);\">&gt;</textarea> <div class=\"terminal\">&gt;<div class=\"terminal_caret_position\">&gt;<div class=\"terminal_caret\"></div> </div> </div> </div>";
-  terminal = element.firstChild;
-  document.body.append(terminal);
+  const element = document.createElement("div");
+  element.innerHTML = "<div class=\"terminal_container\"> <textarea class=\"terminal_textarea\">&gt;</textarea> <div class=\"terminal\">&gt;<div class=\"terminal_caret_position\">&gt;<div class=\"terminal_caret\"></div> </div> </div> </div>";
+  const terminal = element.firstChild;
+  const window = new sttk.Window({ title: "Terminal", child: new sttk.Element({ element: terminal }) });
+  window.connect("activate", () => {
+    terminal.querySelector(".terminal_textarea").focus();
+  })
   terminal.querySelector(".terminal_textarea").currentCommandHistoryEntry = -1;
   terminal.querySelector(".terminal_textarea").commandStart = 1;
   terminal.querySelector(".terminal_textarea").commandEnd = 1;
+  terminal.querySelector(".terminal_textarea").addEventListener("keydown", function (event) {
+    handleTerminalTextareaKeydown(this, event);
+  });
   terminal.click();
-  let speed = 0.01;
-  let increaseSpeed = true;
-  function animate() {
-    if (speed >= 0.01) {
-      setTimeout(animate, 10); 
-      terminal.style.setProperty("opacity", (Number(terminal.style.getPropertyValue("opacity")) + speed)); terminal.style.setProperty("transform", "scale(" + ((Number(terminal.style.getPropertyValue("transform").slice(terminal.style.getPropertyValue("transform").indexOf("(") + 1, terminal.style.getPropertyValue("transform").indexOf(")")))) + speed / 4) + ")");
-    } else {
-      terminal.removeAttribute("style");
-    }   
-    
-    if (speed < 0.095 && increaseSpeed) {
-      speed += 0.01;
-    } else {
-      increaseSpeed = false;
-      speed -= 0.01;
-    }
-  }
-  animate();
   if (command) {
     runCommand(terminal, command);
     closeWindow(terminal);
   }
-}
-
-function closeWindow(window) {
-  if (!window.classList.contains("stwindow")) {
-    throw "SterntylPlError: Cannot close a window that is not a window";
-  }
-  window.style.setProperty("opacity", 1);
-  window.style.setProperty("transform", "scale(1)");
-  let speed = 0.01;
-  let increaseSpeed = true;
-  function animate() {
-    if (speed >= 0.01) {
-      setTimeout(animate, 10); 
-      terminal.style.setProperty("opacity", (Number(terminal.style.getPropertyValue("opacity")) - speed)); terminal.style.setProperty("transform", "scale(" + ((Number(terminal.style.getPropertyValue("transform").slice(terminal.style.getPropertyValue("transform").indexOf("(") + 1, terminal.style.getPropertyValue("transform").indexOf(")")))) - speed / 4) + ")");
-    } else {
-      window.remove();
-    }   
-    
-    if (speed < 0.095 && increaseSpeed) {
-      speed += 0.01;
-    } else {
-      increaseSpeed = false;
-      speed -= 0.01;
-    }
-  }
-  animate();
+  window.showAll(document.body);
 }
 
 function openScreen(screen) {
@@ -177,7 +129,7 @@ function notify(notification) {
     throw "SterntylPlError: Cannot notify non-notification";
   }
   notification.classList.add("open");
-  setTimeout(function (notification) {notification.classList.remove("open");}, 5000, notification);
+  setTimeout(function (notification) { notification.classList.remove("open"); }, 5000, notification);
 }
 
 function closeNotification(notification) {
@@ -195,7 +147,7 @@ async function runCommand(textarea, input) {
 
     textarea.parentNode.querySelector(".terminal").innerHTML = ansiEscCode(textarea.value.replace(/</g, "&lt;").replace(/>/g, "&gt;"), textarea) + "<div class=\"terminal_caret_position\">&gt;<div class=\"terminal_caret\"></div> </div>";
     textarea.parentNode.querySelector(".terminal_caret_position").innerHTML = textarea.value.slice(0, textarea.selectionEnd).replace(/\u001b\[[^A-Za-z]*[A-Za-z]/g, "").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "<div class=\"terminal_caret\"></div>";
-    
+
     switch (args[0]) {
       case "":
         break;
@@ -294,10 +246,10 @@ async function handleTerminalTextareaKeydown(element, event) {
       }
       break;
     case "ArrowUp":
-     if (element.currentCommandHistoryEntry < commandHistory.length - 1) {
-      element.currentCommandHistoryEntry++;
-      element.value = element.value.slice(0, element.commandStart) + commandHistory[element.currentCommandHistoryEntry] + element.value.slice(element.commandEnd);
-    }
+      if (element.currentCommandHistoryEntry < commandHistory.length - 1) {
+        element.currentCommandHistoryEntry++;
+        element.value = element.value.slice(0, element.commandStart) + commandHistory[element.currentCommandHistoryEntry] + element.value.slice(element.commandEnd);
+      }
       event.preventDefault();
       break;
     case "Backspace":
@@ -313,7 +265,6 @@ async function handleTerminalTextareaKeydown(element, event) {
       insertTextInTextarea(element, "\n", element.commandEnd);
       await runCommand(element, element.value.slice(element.commandStart, element.commandEnd));
       insertTextInTextarea(element, ">", element.selectionEnd);
-      cursorMoveEntered = false;
       element.commandStart = element.commandEnd = element.selectionEnd < 0 ? element.value.length - element.selectionEnd : element.selectionEnd;
       element.currentCommandHistoryEntry = -1;
       break;
@@ -380,7 +331,7 @@ function ansiEscCode(string, textarea) {
       textarea.selectionStart = textarea.selectionEnd = textarea.value.indexOf("\n", textarea.selectionEnd);
     }
   });
-  
+
   string.replace(/\u001b\[(\d*)C/g, (string, number) => {
     number = number === "" ? 1 : Number(number);
     textarea.selectionStart = textarea.selectionEnd += number;
@@ -419,7 +370,7 @@ function ansiEscCode(string, textarea) {
     while ((string.match(/<span[^>]*>/g) || []).length !== (string1.match(/<\/span>/g) || []).length + (string.match(/<\/span>/g) || []).length) {
       string1 += "</span>";
     }
-    
+
     return string1;
   });
 
@@ -435,7 +386,7 @@ function ansiEscCode(string, textarea) {
 async function updateCommandCompletions(command) {
   const completionElement = document.querySelector(".command_completions");
   const searchBox = document.querySelector(".search_box");
-  
+
   function complete(completions) {
     for (const completion of completions) {
       if (completion.split(" ").at(-1).includes(command.split(/ /).at(-1))) {
@@ -450,7 +401,7 @@ async function updateCommandCompletions(command) {
       }
     }
   }
-  
+
   function syntaxHint(strings) {
     for (const string of strings) {
       const element = document.createElement("div");
@@ -459,7 +410,7 @@ async function updateCommandCompletions(command) {
       completionElement.appendChild(element);
     }
   }
-  
+
   completionElement.innerHTML = "";
   if (/^\S*$/.test(command)) {
     complete(["download", "go", "m", "search", "terminal"]);
@@ -521,3 +472,46 @@ function search(searchString) {
     return shouldUnhide;
   }).forEach(element => element.classList.remove("hidden"));
 }
+
+addEventListener("keydown", event => {
+  if (document.activeElement === document.body && /^Key[A-Za-z]$/.test(event.code)) {
+    document.querySelector('.search_box').focus();
+  };
+});
+
+addEventListener("onmousedown", () => {
+  document.querySelectorAll('.notification').forEach(notification => closeNotification(notification));
+});
+
+document.querySelector(".exit_search_button").addEventListener("click", function () {
+  search('');
+  this.classList.add('hidden');
+});
+
+document.querySelector(".search_box").addEventListener("keydown", function (event) {
+  setTimeout(that => updateCommandCompletions(that.value), 30, this);
+  if (event.code === 'Enter') {
+    if (/^[\s;]*(?:download|go|m|login|search|terminal)/.test(this.value)) {
+      runCommand({ value: '', parentNode: { querySelector: () => ({}) } }, this.value);
+      this.value = '';
+    } else {
+      search(this.value);
+    }
+  }
+});
+
+document.querySelector(".search_button").addEventListener("click", () => {
+  search(document.querySelector('.search_box').value);
+});
+
+document.querySelector(".terminal_button").addEventListener("click", () => {
+  openTerminal();
+});
+
+document.querySelectorAll(".element").forEach(element => element.addEventListener("click", function () {
+  document.querySelector("#" +  this.getAttribute("data-id") + "_screen").classList.add("open");
+}));
+
+document.querySelectorAll(".screen_back_button").forEach(element => element.addEventListener("click", function () {
+  closeScreen(this.parentNode);
+}));

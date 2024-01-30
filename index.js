@@ -34,7 +34,6 @@ http.createServer((req, res) => {
           res.end("415 Unsupported Media Type");
         }
     }
-    
   }
 })
   .listen(3000);

@@ -8,132 +8,152 @@
   <script src="load.js"></script>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="door/style.css" />
+  <link rel="stylesheet" href="sttk.css" />
   <script src="door/script.js"></script>
 </head>
 
-<body onkeydown="if (document.activeElement === document.body && /^Key[A-Za-z]$/.test(event.code)) { document.querySelector('.search_box').focus(); }" onmousedown="document.querySelectorAll('.notification').forEach(notification => closeNotification(notification));" onmouseup="drag = {element: {style: {setProperty: () => {}}}}; body.style.removeProperty('user-select');"
-  onmousemove="drag.element.style.setProperty('--left', event.pageX - drag.x  + 'px'); drag.element.style.setProperty('--top', event.pageY - drag.y + 'px');">
+<body>
   <div class="b">
     <svg class="lg" width="50" height="50">
-      <path d="M 0 0 l 37.5 0 a 12.5 12.5 0 0 1 12.5 12.5 l 0 37.5 l -10 0 a 40 40 0 0 0 -40 -40 l 0 -10" fill="#00ff00" />
+      <path d="M 0 0 l 37.5 0 a 12.5 12.5 0 0 1 12.5 12.5 l 0 37.5 l -10 0 a 40 40 0 0 0 -40 -40 l 0 -10"
+        fill="#00ff00" />
       <path d="M 0 10 a 40 40 0 0 1 40 40 l -5 0 a 35 35 0 0 0 -35 -35 l 0 -5" fill="#ffa000" />
       <path d="M 0 15 a 35 35 0 0 1 35 35 l -22.5 0 a 12.5 12.5 0 0 1 -12.5 -12.5 l 0 -22.5" fill="#0000ff" />
     </svg>
     <svg class="nm" width="452" height="50">
-      <path d="M 93.75 12.5 a 3.125 3.125 0 0 0 6.25 0 a 12.5 12.5 0 1 0 -12.5 12.5 a 12.5 12.5 0 1 1 -12.5 12.5 a 3.125 3.125 0 0 1 6.25 0" fill="#00000000" stroke="#ffffff" />
-      <path d="M 112.5 6.25 a 3.125 3.125 0 0 1 0 -6.25 l 18.75 0 a 3.125 3.125 0 0 1 0 6.25 m -9.375 -6.25 l 0 50" fill="#00000000" stroke="#ffffff" />
-      <path d="M 171.875 6.25 a 3.125 3.125 0 0 0 0 -6.25 l -18.75 0 l 0 25 l 18.75 0 m -18.75 0 l 0 25 l 18.75 0 a 3.125 3.125 0 0 0 0 -6.25" fill="#00000000" stroke="#ffffff" />
-      <path d="M 187.5 50 l 0 -50 l 12.5 0 a 12.5 12.5 0 0 1 0 25 l -12.5 0 l 25 25" fill="#00000000" stroke="#ffffff" />
-      <path d="M 225 46.875 a 3.125 3.125 0 0 0 6.25 0 l 0 -46.875 l 12.5 50 l 0 -46.875 a 3.125 3.125 0 0 1 6.25 0" fill="#00000000" stroke="#ffffff" />
-      <path d="M 265.625 6.25 a 3.125 3.125 0 0 1 0 -6.25 l 18.75 0 a 3.125 3.125 0 0 1 0 6.25 m -9.375 -6.25 l 0 50" fill="#00000000" stroke="#ffffff" />
+      <path
+        d="M 93.75 12.5 a 3.125 3.125 0 0 0 6.25 0 a 12.5 12.5 0 1 0 -12.5 12.5 a 12.5 12.5 0 1 1 -12.5 12.5 a 3.125 3.125 0 0 1 6.25 0"
+        fill="#00000000" stroke="#ffffff" />
+      <path d="M 112.5 6.25 a 3.125 3.125 0 0 1 0 -6.25 l 18.75 0 a 3.125 3.125 0 0 1 0 6.25 m -9.375 -6.25 l 0 50"
+        fill="#00000000" stroke="#ffffff" />
+      <path
+        d="M 171.875 6.25 a 3.125 3.125 0 0 0 0 -6.25 l -18.75 0 l 0 25 l 18.75 0 m -18.75 0 l 0 25 l 18.75 0 a 3.125 3.125 0 0 0 0 -6.25"
+        fill="#00000000" stroke="#ffffff" />
+      <path d="M 187.5 50 l 0 -50 l 12.5 0 a 12.5 12.5 0 0 1 0 25 l -12.5 0 l 25 25" fill="#00000000"
+        stroke="#ffffff" />
+      <path d="M 225 46.875 a 3.125 3.125 0 0 0 6.25 0 l 0 -46.875 l 12.5 50 l 0 -46.875 a 3.125 3.125 0 0 1 6.25 0"
+        fill="#00000000" stroke="#ffffff" />
+      <path d="M 265.625 6.25 a 3.125 3.125 0 0 1 0 -6.25 l 18.75 0 a 3.125 3.125 0 0 1 0 6.25 m -9.375 -6.25 l 0 50"
+        fill="#00000000" stroke="#ffffff" />
       <path d="M 300 0 l 12.5 25 l 12.5 -25 m -12.5 25 l 0 25" fill="#00000000" stroke="#ffffff" />
-      <path d="M 350 0 l 0 50 l 12.5 0 m -3.125 -37.5 a 3.125 3.125 0 0 1 1.5625 6.25 l -18.75 18.75 a 3.125 3.125 0 0 0 1.5625 6.25" fill="#00000000" stroke="#ffffff" />
+      <path
+        d="M 350 0 l 0 50 l 12.5 0 m -3.125 -37.5 a 3.125 3.125 0 0 1 1.5625 6.25 l -18.75 18.75 a 3.125 3.125 0 0 0 1.5625 6.25"
+        fill="#00000000" stroke="#ffffff" />
       <circle cx="376" cy="49" r="1" fill="#ffffff" stroke="#ffffff" />
       <path d="M 389.5 50 l 0 -50 l 12.5 0 a 12.5 12.5 0 0 1 0 25 l -12.5 0" fill="#00000000" stroke="#ffffff" />
       <path d="M 427 0 l 0 50 l 25 0" fill="#00000000" stroke="#ffffff" />
     </svg>
     <div class="search_wrapper flex">
-      <div class="hidden exit_search_button" onclick="search(''); this.classList.add('hidden');">&lt;</div>
-      <input class="search_box" type="text" placeholder="Szukaj lub wpisz polecenie"
-        onkeydown="setTimeout(that => updateCommandCompletions(that.value), 30, this); if (event.code === 'Enter') { if (/^[\s;]*(?:download|go|m|login|search|terminal)/.test(this.value)) { runCommand({ value: '', parentNode: { querySelector: () => ({}) } }, this.value); this.value = ''; } else { search(this.value); } }" />
+      <div class="hidden exit_search_button">&lt;</div>
+      <input class="search_box" type="text" placeholder="Szukaj lub wpisz polecenie" />
       <div class="command_completions"></div>
-      <svg class="search_button" onclick="search(document.querySelector('.search_box').value);" width="16" height="16">
+      <svg class="search_button" width="16" height="16">
         <circle cx="6" cy="6" r="6" fill="#00000000" stroke="#ffffff" />
         <line x1="10" y1="10" x2="16" y2="16" stroke="#ffffff" />
       </svg>
     </div>
-    <div class="terminal_button" onclick="openTerminal();">Terminal</div>
+    <div class="terminal_button">Terminal</div>
     <div class="money">Masz 0,00 zł</div>
   </div>
   <div class="elements">
-    <div class="element" onclick="openScreen(document.querySelector('#barrier_screen'));">
+    <div class="element" data-id="barrier">
       <img src="images/barrier.png" />
       Bariera (z Minecrafta)
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#command_block_screen'));">
+    <div class="element" data-id="command_block">
       <img src="images/command_block.png" />
       Command block
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#marker_screen'));">
+    <div class="element" data-id="marker">
       <img src="images/marker.png" />
       Flamaster
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#paper_fragment_screen'));">
+    <div class="element" data-id="paper_fragment">
       <img src="images/paper_fragment.png" />
       Kawałek papieru
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#klaptop_screen'));">
+    <div class="element" data-id="klaptop">
       <img src="images/klaptop.png" />
       Klaptop
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#lawnmower_screen'));">
+    <div class="element" data-id="lawnmower">
       Kosiarka
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#stern_back_model_screen'));">
+    <div class="element" data-id="stern_back_model">
       Model stern tył
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#nothing_screen'));">
+    <div class="element" data-id="nothing">
       Nic
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#uncraftable_potion_screen'));">
+    <div class="element" data-id="uncraftable_potion">
       Niewykonalna mikstura
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#debug_stick_screen'));">
+    <div class="element" data-id="debug_stick">
       Patyk debugujący
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#air_screen'));">
+    <div class="element" data-id="air">
       Powietrze
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#gggg_screen'));">
+    <div class="element" data-id="gggg">
       Schemat elektryczny BMW E46
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#sternmorka_screen'));">
+    <div class="element" data-id="sternmorka">
       Sternmórka
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#structure_block_screen'));">
+    <div class="element" data-id="structure_block">
       Structure block
     </div>
-    <div class="element" onclick="openScreen(document.querySelector('#dead_fish_screen'));">
+    <div class="element" data-id="dead_fish">
       Zdechła ryba
-      </div>
-    <div class="element" onclick="openScreen(document.querySelector('#one_pln_screen'));">
+    </div>
+    <div class="element" data-id="one_pln">
       Złotówka
-      </div>
-    <div class="element" onclick="openScreen(document.querySelector('#iron_golem_screen'));">
+    </div>
+    <div class="element" data-id="iron_golem">
       Żelazny golem
-      </div>
+    </div>
   </div>
 
   <div class="screen" id="barrier_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Bariera (z Minecrafta)</div>
     <img src="images/barrier.png" />
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="command_block_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Command block</div>
     <img src="images/command_block.png" />
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="marker_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Flamaster</div>
     <img src="images/marker.png" />
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="paper_fragment_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Kawałek papieru</div>
     <img src="images/paper_fragment.png" />
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="klaptop_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Klaptop</div>
     <img src="images/klaptop.png" />
     <h1>Dane techniczne</h1>
@@ -152,86 +172,112 @@
       </tr>
     </table>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="lawnmower_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Kosiarka</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="iron_golem_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Żelazny golem</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
 
   <div class="screen" id="stern_back_model_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Model stern tył</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="uncraftable_potion_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Niewykonalna mikstura</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="debug_stick_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Patyk debugujący</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="air_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Powietrze</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="nothing_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Nic</div>
     <div class="price">0,00 zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#bought_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#bought_notification'));">Kup</div>
   </div>
   <div class="screen" id="gggg_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Schemat elektryczny BMW E46</div>
     <div class="price">1,00 GGGG jakim nim G FXt umiem hm c imY&quot;dGG</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="sternmorka_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Sternmórka</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="structure_block_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Structure block</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="dead_fish_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Zdechła ryba</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="one_pln_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Złotówka</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
   <div class="screen" id="iron_golem_screen">
-    <div class="screen_back_button" onclick="closeScreen(this.parentNode);"><svg width="5" height="10"><path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" /></svg> Powrót</div>
+    <div class="screen_back_button" st-onclick="closeScreen(this.parentNode);"><svg width="5" height="10">
+        <path d="M 5 0 l -5 5 l 5 5" fill="#00000000" stroke="#000000" />
+      </svg> Powrót</div>
     <div class="screen_title">Żelazny golem</div>
     <div class="price">&infin; zł</div>
-    <div class="buy_button" onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
+    <div class="buy_button" st-onclick="notify(document.querySelector('#infinite_price_notification'));">Kup</div>
   </div>
 
   <div class="notification" id="bought_notification" onmouseleave="closeNotification(this);">
@@ -252,7 +298,8 @@
     Masz za mało pieniędzy
   </div>
 
-  <script src="script.js"></script>
+  <script src="sttk.js" type="module"></script>
+  <script src="script.js" type="module"></script>
 </body>
 
 </html>

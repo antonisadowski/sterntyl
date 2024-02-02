@@ -34,6 +34,41 @@ http.createServer((req, res) => {
           res.end("415 Unsupported Media Type");
         }
     }
+  } else if (req.method === "POST") {
+    let body = "";
+    req.on("data", chunk => body += chunk);
+    req.on("end", () => {
+      body = JSON.parse(body);
+      fs.readFile("./data.json", (err, data) => {
+        if (err) {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("404 Not Found");
+        } else {
+          data = JSON.parse(data);
+          switch (req.url) {
+            case "/login":
+              if (body.username in data.usr && body.password == data.usr[body.username].password) {
+                fs.readFile("logged-in.html", (err, data) => {
+                  if (err) {
+                    res.writeHead(404, { "Content-Type": "text/plain" });
+                    res.end("404 Not Found");
+                  } else {
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.end(data);
+                  }
+                })
+              } else {
+                res.writeHead(403, { "Content-Type": "text/plain" });
+                res.end("403 Forbidden");
+              }
+              break;
+            default:
+              res.writeHead(404, { "Content-Type": "text/plain" });
+              res.end("404 Not Found");
+          }
+        }
+      });
+    });
   }
 })
   .listen(3000);

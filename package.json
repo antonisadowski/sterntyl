@@ -1,8 +1,6 @@
 {
   "name": "sterntyl",
   "scripts": {
-    "build": "",
-    "test": "",
     "start": "node ./index.js"
   },
   "repository": {
